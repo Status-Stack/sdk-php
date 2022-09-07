@@ -1,0 +1,37 @@
+{
+    "name": "statusstack/sdk",
+    "description": "Status Stack SDK",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Lukas Hron",
+            "email": "info@lukashron.cz",
+            "homepage": "https://www.lukashron.cz",
+            "role": "Developer"
+        }
+    ],
+    "type": "library",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1.0",
+        "nette/utils": "^3.2",
+        "psr/http-client": "^1.0",
+        "psr/http-message": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "StatusStack\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.12.23"
+    }
+}

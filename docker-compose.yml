@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  sdk:
+    build: docker
+    volumes:
+      - .:/var/www/html:rw
+    environment:
+      COMPOSER_MEMORY_LIMIT: 2G
