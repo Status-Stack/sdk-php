@@ -1,5 +1,22 @@
 # Status Stack
 
+Install
+-------
+```bash
+  $ composer require statusstack/sdk-php
+```
+
+Usage
+-----
+```php
+    StatusStackFactory::send(
+        'http://nginx@exampleKey1234',
+        'sdk',
+        'Example data',
+        0
+    );
+```
+
 Develop
 -------
 ```bash
