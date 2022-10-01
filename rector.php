@@ -6,7 +6,7 @@ use Rector\Config\RectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([__DIR__ . '/src/']);
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+    $rectorConfig->phpVersion(PhpVersion::PHP_72);
     $rectorConfig->sets([
         SetList::DEAD_CODE,
         SetList::CODING_STYLE,
