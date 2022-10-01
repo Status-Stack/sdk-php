@@ -4,6 +4,11 @@ namespace StatusStack\Dns;
 
 use Nette\StaticClass;
 
+/**
+ * Data source name resolver
+ *
+ * {PROTOCOL}://{SECRET_KEY}@{ENDPOINT}
+ */
 final class DnsResolver
 {
     use StaticClass;
@@ -13,16 +18,18 @@ final class DnsResolver
      */
     public static function parseDNS(string $dns): array
     {
-        if (preg_match('#((http|https):\/\/.*)@(.*)#', $dns, $result) === false) {
+        if (preg_match('#^(http|https):\/\/(.*)@(.*)$#', $dns, $result) === false) {
             throw new DnsResolverException('DNS record is not be parse.');
         }
 
-        if (!isset($result[1]) && !is_string($result[1])) {
-            throw new DnsResolverException('Host is not set in DNS.');
+        // {SECRET_KEY}
+        if ((string) $result[2] === '') {
+            throw new DnsResolverException('Secret key is not set in DNS.');
         }
 
-        if (!isset($result[3]) && !is_string($result[3])) {
-            throw new DnsResolverException('Key is not set in DNS.');
+        // {ENDPOINT}
+        if ((string) $result[3] === '') {
+            throw new DnsResolverException('API endpoint is not set in DNS.');
         }
 
         return $result;
@@ -33,7 +40,8 @@ final class DnsResolver
      */
     public static function getHostFromDns(string $dns): string
     {
-        return self::parseDNS($dns)[1];
+        $pDNS = self::parseDNS($dns);
+        return sprintf('%s://%s', $pDNS[1], $pDNS[3]);
     }
 
     /**
@@ -41,6 +49,6 @@ final class DnsResolver
      */
     public static function getKeyFromDns(string $dns): string
     {
-        return self::parseDNS($dns)[3];
+        return self::parseDNS($dns)[2];
     }
 }

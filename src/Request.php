@@ -10,8 +10,11 @@ use StatusStack\Definition\Sdk;
 class Request implements RequestInterface
 {
     private array $headers = [];
+
     private string $apiEndpoint;
+
     private string $method;
+
     private string $data;
 
     public function __construct(
@@ -112,7 +115,7 @@ class Request implements RequestInterface
 
     public function getUri(): string
     {
-        return sprintf('%s%s', $this->apiEndpoint, Sdk::apiEndpointDataPost);
+        return $this->apiEndpoint;
     }
 
     public function withUri(UriInterface $uri, $preserveHost = false)

@@ -14,10 +14,10 @@ use StatusStack\StatusStackFactory;
 try {
 
     StatusStackFactory::send(
-        'http://nginx@exampleKey1234',
-        'sdk',
-        'Example data',
-        0
+        'https://{secret-key}@statusstack.app/api/v1/ticket/{id-project}',
+        'sdk-php',
+        'Request test',
+        1
     );
 
 } catch (ClientException|DnsResolverException|StatusStackException|\Nette\Utils\JsonException $exception) {

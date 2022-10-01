@@ -11,12 +11,6 @@ class Sdk
     const name = 'Status Stack - php SDK';
 
     /**
-     * API
-     * @var string
-     */
-    const apiEndpointDataPost = '/api/v1/data/';
-
-    /**
      * @var string
      */
     const authHeaderName = 'X-StatusStack-Auth';
