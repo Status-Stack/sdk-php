@@ -7,11 +7,16 @@ use Psr\Http\Message\StreamInterface;
 
 class Response implements ResponseInterface
 {
+    private array $httpResponseHeader;
+    private string $response;
+
     public function __construct(
-        private readonly array $httpResponseHeader,
-        private readonly string $response
+        array $httpResponseHeader,
+        string $response
     )
     {
+        $this->httpResponseHeader = $httpResponseHeader;
+        $this->response = $response;
     }
 
     public function getProtocolVersion(): ?string

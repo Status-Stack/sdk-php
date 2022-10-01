@@ -10,13 +10,19 @@ use StatusStack\Definition\Sdk;
 class Request implements RequestInterface
 {
     private array $headers = [];
+    private string $apiEndpoint;
+    private string $method;
+    private string $data;
 
     public function __construct(
-        private readonly string $apiEndpoint,
-        private readonly string $method,
-        private readonly string $data,
+        string $apiEndpoint,
+        string $method,
+        string $data
     )
     {
+        $this->apiEndpoint = $apiEndpoint;
+        $this->method = $method;
+        $this->data = $data;
     }
 
     public function getProtocolVersion()

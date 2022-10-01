@@ -1,7 +1,7 @@
 {
-    "name": "statusstack/sdk",
-    "description": "Status Stack SDK",
-    "version": "0.0.1",
+    "name": "statusstack/sdk-php",
+    "description": "Status Stack PHP SDK",
+    "version": "0.0.1-BETA1",
     "authors": [
         {
             "name": "Lukas Hron",
@@ -15,7 +15,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1.0",
+        "php": "^7.4 || ^8.0",
         "nette/utils": "^3.2",
         "psr/http-client": "^1.0",
         "psr/http-message": "^1.0"
