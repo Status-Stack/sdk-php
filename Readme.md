@@ -28,3 +28,5 @@ Develop
   # Rector
   $ docker-compose exec sdk php vendor/bin/rector process
 ```
+
+Copyright (c) 2022 Status Stack
