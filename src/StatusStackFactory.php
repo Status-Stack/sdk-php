@@ -19,7 +19,7 @@ use StatusStack\Client\ClientException;
 use StatusStack\Definition\HttpCodes;
 use StatusStack\Definition\RequestMethods;
 use StatusStack\Definition\Sdk;
-use StatusStack\Dns\Dnsresolver;
+use StatusStack\Dns\DnsResolver;
 use StatusStack\Dns\DnsResolverException;
 
 final class StatusStackFactory
