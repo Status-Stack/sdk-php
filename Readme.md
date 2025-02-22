@@ -9,11 +9,10 @@ Install
 Usage
 -----
 ```php
-    StatusStackFactory::send(
+    StatusStack::capture(
         'http://nginx@exampleKey1234',
         'sdk',
-        'Example data',
-        0
+        'Example data'
     );
 ```
 
@@ -29,4 +28,4 @@ Develop
   $ docker-compose exec sdk php vendor/bin/rector process
 ```
 
-Copyright (c) 2022 Status Stack
+Copyright (c) 2022-2025 Status Stack
