@@ -11,44 +11,45 @@
 
 namespace StatusStack\Client;
 
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use StatusStack\Response;
+use StatusStack\DNS\DNSDTO;
 
-class Client implements ClientInterface
+class Client
 {
-    /**
-     * @throws ClientException
-     */
-    public function sendRequest(RequestInterface $request): ResponseInterface
+    const responseHeaderProtocolVersion = '_protocolVersion';
+    const responseHeaderStatusCode = '_responseCode';
+
+    public function sendRequest(DNSDTO $dns, string $requestBody): void
     {
+        $headers = [
+            'Content-type: application/json; charset=UTF-8',
+            'User-Agent: Status Stack - php SDK',
+            sprintf('X-StatusStack-Auth: %s', $dns->secretKey)
+        ];
+
         $options = [
             'http' => [
-                'method' => $request->getMethod(),
-                'header' => implode("\r\n", $request->getHeaders())."\r\n",
-                'content' => $request->getBody()
+                'method' => 'POST',
+                'header' => implode("\r\n", $headers)."\r\n",
+                'content' => $requestBody
             ]
         ];
 
-        $response = @file_get_contents(
-            (string)$request->getUri(),
-            false,
-            stream_context_create($options)
-        );
+        $endpoint = sprintf('%s://%s', $dns->protocol, $dns->endpoint);
+        $context = stream_context_create($options);
+        $response = file_get_contents($endpoint, false, $context);
 
         if ($response === false) {
             throw new ClientException('Error send request.');
         }
 
-        if (strlen($response) == 0) {
-            throw new ClientException('Response is empty.');
-        }
+        $responseHeaders = $this->parseHeadersToAssociativeArray($http_response_header);
+        $responseStatusCode = $responseHeaders[self::responseHeaderStatusCode];
 
-        return new Response(
-            $this->parseHeadersToAssociativeArray($http_response_header),
-            $response
-        );
+        if ($responseStatusCode !== 201) {
+            throw new ClientException(
+                sprintf('Fatal error send request. Response status code: %s', $responseStatusCode)
+            );
+        }
     }
 
     /**
@@ -61,8 +62,8 @@ class Client implements ClientInterface
             if (isset($t[1])) {
                 $headers[trim($t[0])] = trim($t[1]);
             } elseif (preg_match('#HTTP\/([0-9\.]+)\s+(\d+)#', $header, $output)) {
-                $headers['_protocolVersion'] = (int) $output[1];
-                $headers['_responseCode'] = (int) $output[2];
+                $headers[self::responseHeaderProtocolVersion] = (int)$output[1];
+                $headers[self::responseHeaderStatusCode] = (int)$output[2];
             }
         }
 

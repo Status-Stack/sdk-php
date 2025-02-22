@@ -9,18 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack\Definition;
+namespace StatusStack\Json;
 
-class Sdk
-{
-    /**
-     * SDK
-     * @var string
-     */
-    const name = 'Status Stack - php SDK';
+use Exception;
 
-    /**
-     * @var string
-     */
-    const authHeaderName = 'X-StatusStack-Auth';
-}
+class JsonException extends Exception {}

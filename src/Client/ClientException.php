@@ -11,4 +11,6 @@
 
 namespace StatusStack\Client;
 
-class ClientException extends \Exception {}
+use Exception;
+
+class ClientException extends Exception {}

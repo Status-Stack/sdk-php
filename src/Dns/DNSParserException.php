@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack;
+namespace StatusStack\DNS;
 
-class StatusStackException extends \Exception {}
+use Exception;
+
+class DNSParserException extends Exception {}
