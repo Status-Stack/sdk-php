@@ -4,11 +4,8 @@ MAINTAINER info@lukashron.cz
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
-    python wget gnupg g++ locales unzip dialog apt-utils curl git \
-    && apt-get clean
-
-RUN apt-get update && apt-get install -y libonig-dev libicu-dev libxml2-dev
+RUN apt-get update && apt-get install -y wget gnupg g++ unzip curl git && apt-get clean
+RUN apt-get update && apt-get install -y libonig-dev libicu-dev libxml2-dev && apt-get clean
 
 RUN docker-php-ext-install mbstring intl opcache
 
