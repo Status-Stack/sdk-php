@@ -9,29 +9,29 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack\DNS;
+namespace StatusStack\Dsn;
 
 /**
  * {PROTOCOL}://{SECRET_KEY}@{ENDPOINT}
  */
-final class DNSParser
+final class DsnParser
 {
-    public function parser(string $dns): DNSDTO
+    public function parser(string $dns): DsnDTO
     {
         if (preg_match('#^(http|https):\/\/(.*)@(.*)$#', $dns, $result) === false) {
-            throw new DNSParserException('Invalid format of DNS.');
+            throw new DsnParserException('Invalid format of DNS.');
         }
 
         // {SECRET_KEY}
         if (strlen($result[2]) === 0) {
-            throw new DNSParserException('Secret key is not set in DNS.');
+            throw new DsnParserException('Secret key is not set in DNS.');
         }
 
         // {ENDPOINT}
         if (strlen($result[3]) === 0) {
-            throw new DNSParserException('Endpoint is not set in DNS.');
+            throw new DsnParserException('Endpoint is not set in DNS.');
         }
 
-        return new DNSDTO($result[1], $result[2], $result[3]);
+        return new DsnDTO($result[1], $result[2], $result[3]);
     }
 }

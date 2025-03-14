@@ -11,19 +11,19 @@
 
 namespace StatusStack\Client;
 
-use StatusStack\DNS\DNSDTO;
+use StatusStack\Dsn\DsnDTO;
 
 class Client
 {
     const responseHeaderProtocolVersion = '_protocolVersion';
     const responseHeaderStatusCode = '_responseCode';
 
-    public function sendRequest(DNSDTO $dns, string $requestBody): void
+    public function sendRequest(DsnDTO $dsn, string $requestBody): void
     {
         $headers = [
             'Content-type: application/json; charset=UTF-8',
             'User-Agent: Status Stack - php SDK',
-            sprintf('X-StatusStack-Auth: %s', $dns->secretKey)
+            sprintf('X-StatusStack-Auth: %s', $dsn->secretKey)
         ];
 
         $options = [
@@ -34,7 +34,7 @@ class Client
             ]
         ];
 
-        $endpoint = sprintf('%s://%s', $dns->protocol, $dns->endpoint);
+        $endpoint = sprintf('%s://%s', $dsn->protocol, $dsn->endpoint);
         $context = stream_context_create($options);
         $response = file_get_contents($endpoint, false, $context);
 

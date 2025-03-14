@@ -12,7 +12,7 @@
 namespace StatusStack;
 
 use StatusStack\Client\Client;
-use StatusStack\DNS\DNSParser;
+use StatusStack\Dsn\DsnParser;
 use StatusStack\Json\Json;
 
 final class StatusStack
@@ -28,10 +28,10 @@ final class StatusStack
             'data' => $data
         ]);
 
-        $DNSParser = new DNSParser();
-        $DNSDTO = $DNSParser->parser($dns);
+        $DsnParser = new DsnParser();
+        $DsnDTO = $DsnParser->parser($dns);
 
         $client = new Client();
-        $client->sendRequest($DNSDTO, $requestData);
+        $client->sendRequest($DsnDTO, $requestData);
     }
 }

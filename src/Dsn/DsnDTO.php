@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace StatusStack\DNS;
+namespace StatusStack\Dsn;
 
-final class DNSDTO
+final class DsnDTO
 {
     public string $protocol;
     public string $secretKey;
