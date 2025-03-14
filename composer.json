@@ -1,7 +1,7 @@
 {
     "name": "statusstack/sdk-php",
     "description": "Status Stack PHP SDK",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Lukas Hron",
