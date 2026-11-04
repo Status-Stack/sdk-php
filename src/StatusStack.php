@@ -21,7 +21,7 @@ use StatusStack\Transport\TransportInterface;
 
 final class StatusStack
 {
-    public const VERSION = '2.2.0';
+    public const VERSION = '2.2.1';
 
     private DsnDto $dsn;
     private TransportInterface $transport;
