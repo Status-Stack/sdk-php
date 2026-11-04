@@ -1,6 +1,6 @@
-FROM php:8.1.10-fpm
+FROM php:8.1-fpm-bookworm
 
-MAINTAINER info@lukashron.cz
+LABEL maintainer="info@lukashron.cz"
 
 ARG DEBIAN_FRONTEND=noninteractive
 

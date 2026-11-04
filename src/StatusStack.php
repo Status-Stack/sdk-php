@@ -11,27 +11,91 @@
 
 namespace StatusStack;
 
-use StatusStack\Client\Client;
-use StatusStack\Dsn\DsnParser;
+use StatusStack\Dsn\Dsn;
+use StatusStack\Dsn\DsnDto;
 use StatusStack\Json\Json;
+use StatusStack\Ticket\Ticket;
+use StatusStack\Transport\StreamTransport;
+use StatusStack\Transport\TransportInterface;
 
 final class StatusStack
 {
-    public static function capture(
-        string $dns,
-        string $tag,
-        string $data
-    ): void
+    public const VERSION = '1.0.1';
+
+    private DsnDto $dsn;
+    private TransportInterface $transport;
+    private Json $json;
+
+    /** @var (callable(StatusStackException): void)|null */
+    private $errorHandler;
+
+    public function __construct(
+        DsnDto $dsn,
+        ?TransportInterface $transport = null,
+        ?callable $errorHandler = null
+    )
     {
-        $requestData = Json::encode([
-            'tag' => $tag,
-            'data' => $data
-        ]);
+        $this->dsn = $dsn;
+        $this->transport = $transport ?? new StreamTransport();
+        $this->json = new Json();
+        $this->errorHandler = $errorHandler;
+    }
 
-        $DsnParser = new DsnParser();
-        $DsnDTO = $DsnParser->parser($dns);
+    /**
+     * @param string $dsn
+     * @param TransportInterface|null $transport
+     * @param (callable(StatusStackException): void)|null $errorHandler
+     *
+     * @return StatusStack
+     */
+    public static function create(
+        string $dsn,
+        ?TransportInterface $transport = null,
+        ?callable $errorHandler = null
+    ): self
+    {
+        return new self((new Dsn())->parse($dsn), $transport, $errorHandler);
+    }
 
-        $client = new Client();
-        $client->sendRequest($DsnDTO, $requestData);
+    /**
+     * @throws StatusStackException
+     */
+    public static function capture(string $dsn, string $tag, string $data): void
+    {
+        self::create($dsn)->send($tag, $data);
+    }
+
+    /**
+     * @throws StatusStackException When delivery fails and no error handler is set
+     */
+    public function send(string $tag, string $data): bool
+    {
+        $ticket = new Ticket($tag, $data);
+
+        return $this->sendTicket($ticket);
+    }
+
+    /**
+     * @throws StatusStackException When delivery fails and no error handler is set
+     */
+    public function sendTicket(Ticket $ticket): bool
+    {
+        try {
+
+            $payload = $this->json->encode($ticket->toArray());
+            $this->transport->send($this->dsn, $payload);
+
+        } catch (StatusStackException $e) {
+
+            if ($this->errorHandler === null) {
+                throw $e;
+            }
+
+            ($this->errorHandler)($e);
+
+            return false;
+        }
+
+        return true;
     }
 }
