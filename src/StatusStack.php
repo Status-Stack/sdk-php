@@ -11,6 +11,7 @@
 
 namespace StatusStack;
 
+use DateTimeInterface;
 use StatusStack\Dsn\Dsn;
 use StatusStack\Dsn\DsnDto;
 use StatusStack\Json\Json;
@@ -68,9 +69,9 @@ final class StatusStack
     /**
      * @throws StatusStackException When delivery fails and no error handler is set
      */
-    public function send(string $tag, string $data): bool
+    public function send(string $tag, string $data, ?DateTimeInterface $dateTime = null): bool
     {
-        $ticket = new Ticket($tag, $data);
+        $ticket = new Ticket($tag, $data, $dateTime);
 
         return $this->sendTicket($ticket);
     }

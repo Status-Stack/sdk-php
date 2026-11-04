@@ -11,18 +11,28 @@
 
 namespace StatusStack\Ticket;
 
+use DateTimeInterface;
+
 final class Ticket
 {
     private string $tag;
     private string $data;
+    private ?DateTimeInterface $dateTime;
 
+    /**
+     * @param string $tag Max 255 characters
+     * @param string $data Max 65535 characters, numeric value is stored as number
+     * @param DateTimeInterface|null $dateTime Time of the data, defaults to the time of receipt
+     */
     public function __construct(
         string $tag,
-        string $data
+        string $data,
+        ?DateTimeInterface $dateTime = null
     )
     {
         $this->tag = $tag;
         $this->data = $data;
+        $this->dateTime = $dateTime;
     }
 
     public function getTag(): string
@@ -35,14 +45,25 @@ final class Ticket
         return $this->data;
     }
 
+    public function getDateTime(): ?DateTimeInterface
+    {
+        return $this->dateTime;
+    }
+
     /**
      * @return array<string, mixed>
      */
     public function toArray(): array
     {
-        return [
+        $payload = [
             'tag' => $this->tag,
             'data' => $this->data,
         ];
+
+        if ($this->dateTime !== null) {
+            $payload['dateTime'] = $this->dateTime->format(DateTimeInterface::RFC3339);
+        }
+
+        return $payload;
     }
 }

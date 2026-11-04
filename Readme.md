@@ -40,6 +40,9 @@ $statusStack = new StatusStack(
 
 $statusStack->send('sdk', 'Example data');
 $statusStack->sendTicket(new Ticket('sdk', 'Example data'));
+
+// optional time of the data (RFC 3339), defaults to the time of receipt
+$statusStack->send('cpu-usage', '42.5', new DateTimeImmutable('2026-11-04 10:15:30'));
 ```
 
 ### Exceptions
