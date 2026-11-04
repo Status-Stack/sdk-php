@@ -45,6 +45,24 @@ $statusStack->sendTicket(new Ticket('sdk', 'Example data'));
 $statusStack->send('cpu-usage', '42.5', new DateTimeImmutable('2026-11-04 10:15:30'));
 ```
 
+### Sending multiple tickets over one connection
+`StreamTransport` opens a new connection for every ticket. `CurlTransport` (requires `ext-curl`)
+keeps the connection open, so consecutive tickets sent through the same instance reuse it.
+
+```php
+use StatusStack\StatusStack;
+use StatusStack\Transport\CurlTransport;
+
+$statusStack = StatusStack::create(
+    'https://exampleKey1234@platform.statusstack.app/api/v1/ticket/{uuid}',
+    new CurlTransport(3.0)               // optional, timeout in seconds (default 5)
+);
+
+foreach ($metrics as $tag => $value) {
+    $statusStack->send($tag, $value);
+}
+```
+
 ### Exceptions
 All SDK exceptions implement `StatusStack\StatusStackException`:
 - `StatusStack\Dsn\InvalidDsnException` – malformed DSN (always thrown)

@@ -18,6 +18,9 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*"
     },
+    "suggest": {
+        "ext-curl": "Required for CurlTransport (reuses one connection for multiple tickets)"
+    },
     "autoload": {
         "psr-4": {
             "StatusStack\\": "src/"
