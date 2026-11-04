@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack\Dsn;
+namespace StatusStack\Json;
 
-use Exception;
+use RuntimeException;
+use StatusStack\StatusStackException;
 
-class DsnParserException extends Exception {}
+final class EncodingException extends RuntimeException implements StatusStackException
+{
+}

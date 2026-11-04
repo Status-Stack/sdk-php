@@ -11,16 +11,33 @@
 
 namespace StatusStack\Json;
 
+use JsonException;
+use function json_encode;
+use function sprintf;
+
+/**
+ * @internal
+ */
 final class Json
 {
-    public static function encode(array $value): string
+    private const ENCODE_FLAGS = JSON_THROW_ON_ERROR
+                                | JSON_INVALID_UTF8_SUBSTITUTE
+                                | JSON_UNESCAPED_UNICODE
+                                | JSON_UNESCAPED_SLASHES;
+
+    /**
+     * @param array<string, mixed> $value
+     *
+     * @throws EncodingException
+     */
+    public function encode(array $value): string
     {
-        $json = json_encode($value);
-
-        if ($error = json_last_error()) {
-            throw new JsonException(json_last_error_msg(), $error);
+        try {
+            return json_encode($value, self::ENCODE_FLAGS);
+        } catch (JsonException $e) {
+            throw new EncodingException(
+                sprintf('Unable to encode payload to JSON: %s', $e->getMessage()), 0, $e
+            );
         }
-
-        return $json;
     }
 }

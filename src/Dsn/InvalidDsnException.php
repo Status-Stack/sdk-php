@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack\Client;
+namespace StatusStack\Dsn;
 
-use Exception;
+use InvalidArgumentException;
+use StatusStack\StatusStackException;
 
-class ClientException extends Exception {}
+final class InvalidDsnException extends InvalidArgumentException implements StatusStackException
+{
+}

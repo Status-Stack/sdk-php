@@ -9,8 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace StatusStack\Json;
+namespace StatusStack;
 
-use Exception;
+use Throwable;
 
-class JsonException extends Exception {}
+interface StatusStackException extends Throwable
+{
+}
